@@ -17,15 +17,32 @@ class UserManager(BaseUserManager):
         же самого кода, который Django использовал для создания User (для демонстрации).
         """
 
-    def create_user(self, email, username, password):
+    def create_user(self,
+                    username,
+                    email,
+                    password,
+                    # fullname,
+                    # confirmed,
+                    # location,
+                    # about,
+                    # website,
+                    ):
         """ Создает и возвращает пользователя с имэйлом, паролем и именем. """
-        if email is None:
-            raise TypeError('Users must have an email address.')
-
         if username is None:
             raise TypeError('Users must have a username.')
 
-        user = self.model(email=self.normalize_email(email), username=username)
+        if email is None:
+            raise TypeError('Users must have an email address.')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+            # fullname=fullname,
+            # confirmed=confirmed,
+            # location=location,
+            # about=about,
+            # website=website,
+        )
         user.set_password(password)
         user.save()
 
@@ -49,22 +66,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Поскольку адрес почты нам нужен в любом случае, мы также будем
     # использовать его для входы в систему, так как это наиболее
     # распространенная форма учетных данных на данный момент (ну еще телефон).
-    email = models.EmailField(db_index=True, max_length=40, unique=True, blank=True)
 
-    fullname = models.CharField(db_index=True, max_length=40, blank=True)
 
     # Каждому пользователю нужен понятный человеку уникальный идентификатор,
     # который мы можем использовать для предоставления User в пользовательском
     # интерфейсе. Мы так же проиндексируем этот столбец в базе данных для
     # повышения скорости поиска в дальнейшем.
-    username = models.CharField(db_index=True, max_length=40, unique=True, blank=True)
-
-    # password = models.CharField(blank=True)
-    confirmed = models.BooleanField(default=False)
-    # confirm_hash = models.CharField(max_length=255, unique=True)
-    location = models.CharField(max_length=255, blank=False)
-    about = models.CharField(max_length=255, blank=False)
-    website = models.CharField(max_length=255, blank=False)
+    email = models.EmailField(db_index=True, max_length=40, unique=True)
+    username = models.CharField(db_index=True, max_length=40, unique=True)
+    # fullname = models.CharField(db_index=True, max_length=40)
+    # confirmed = models.BooleanField(default=False)
+    # location = models.CharField(max_length=255, blank=True)
+    # about = models.CharField(max_length=255, blank=True)
+    # website = models.CharField(max_length=255, blank=True)
 
     # Когда пользователь более не желает пользоваться нашей системой, он может
     # захотеть удалить свой аккаунт. Для нас это проблема, так как собираемые
@@ -109,13 +123,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         return self._generate_jwt_token()
 
-    def get_full_name(self):
-        """
-        Этот метод требуется Django для таких вещей, как обработка электронной
-        почты. Обычно это имя фамилия пользователя, но поскольку мы не
-        используем их, будем возвращать username.
-        """
-        return self.fullname
+    # def get_full_name(self):
+    #     """
+    #     Этот метод требуется Django для таких вещей, как обработка электронной
+    #     почты. Обычно это имя фамилия пользователя, но поскольку мы не
+    #     используем их, будем возвращать username.
+    #     """
+    #     return self.fullname
 
     def get_short_name(self):
         """ Аналогично методу get_full_name(). """
@@ -134,4 +148,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token
-            # .decode('utf-8')
