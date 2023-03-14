@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'users.apps.UsersConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -132,3 +136,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Рассказать Django о созданной нами кастомной модели пользователя. Строка
+# users.User сообщает Django, что мы ссылаемся на модель User в модуле
+# users.
+AUTH_USER_MODEL = 'users.User'
+
