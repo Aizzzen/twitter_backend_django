@@ -1,26 +1,10 @@
-from rest_framework import status, viewsets
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-from .models import User
-from .serializers import RegistrationSerializer
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 
 
-class RegistrationView(viewsets.ModelViewSet):
-    """
-    Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
-    """
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegistrationSerializer
-
-    def post(self, request):
-        user = request.data.get('user', {})
-
-        # Паттерн создания сериализатора, валидации и сохранения - довольно
-        # стандартный, и его можно часто увидеть в реальных проектах.
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+class UserProfileViewSet(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
