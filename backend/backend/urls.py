@@ -15,23 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users import views
+from user.views import user
+from tweet.views import submit
 from rest_framework.routers import SimpleRouter
 
-# from backend.users.views import UserProfileViewSet
+# from backend.user.views import UserProfileViewSet
 
-# from users.views import UserProfileViewSet
+# from user.views import UserProfileViewSet
 
 # router = SimpleRouter()
 
-# router.register(r'users', UserProfileViewSet)
+# router.register(r'user', UserProfileViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     # path('auth/user', views.user, name='user')
-    path('auth/user/', views.user, name='user')
+    path('auth/user/', user, name='user'),
+    path('tweet/', submit, name='submit')
 ]
 
 # urlpatterns += router.urls
