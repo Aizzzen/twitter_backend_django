@@ -41,7 +41,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
-    'users',
+
+    'user',
+    'tweet',
 ]
 
 MIDDLEWARE = [
@@ -139,8 +141,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH
-# AUTH_USER_MODEL = 'users.User'
-# AUTHENTICATION_BACKENDS = ('users.backends.AuthBackend',)
+# AUTH_USER_MODEL = 'user.User'
+# AUTHENTICATION_BACKENDS = ('user.backends.AuthBackend',)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -172,4 +174,3 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = ''
-
