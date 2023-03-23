@@ -1,10 +1,16 @@
-from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
-from .models import UserProfile
-from .serializers import UserProfileSerializer
+from .serializers import UserSerializer, UserProfileSerializer
 
 
-class UserProfileViewSet(ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+@api_view()
+def user(request: Request):
+    return Response({
+        'user_data': UserSerializer(request.user).data,
+        'user_profile_data': UserProfileSerializer(request.user).data
+    })
+
+
+# UserProfileSerializer(request.user).data

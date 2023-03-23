@@ -32,8 +32,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'users',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
-
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -141,8 +139,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH
-AUTH_USER_MODEL = 'users.User'
-AUTHENTICATION_BACKENDS = ('users.backends.AuthBackend',)
+# AUTH_USER_MODEL = 'users.User'
+# AUTHENTICATION_BACKENDS = ('users.backends.AuthBackend',)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
