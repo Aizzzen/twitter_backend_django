@@ -1,9 +1,11 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from tweet.models import Tweet
 
 
-class TweetSerializer(ModelSerializer):
+class TweetSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Tweet
         fields = "__all__"
