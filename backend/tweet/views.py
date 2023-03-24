@@ -1,24 +1,19 @@
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 
 from tweet.models import Tweet
+from tweet.permissions import IsOwnerOrReadOnly
 from tweet.serializers import TweetSerializer
 
 
-class TweetViewSet(ModelViewSet):
+class TweetAPIList(generics.ListCreateAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
-# class TweetAPIList(generics.ListCreateAPIView):
-#     queryset = Tweet.objects.all()
-#     serializer_class = TweetSerializer
-#
-#
-# class TweetAPIUpdate(generics.UpdateAPIView):
-#     queryset = Tweet.objects.all()
-#     serializer_class = TweetSerializer
-#
-#
-# class TweetDetailAPI(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Tweet.objects.all()
-#     serializer_class = TweetSerializer
+class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tweet.objects.all()
+    serializer_class = TweetSerializer
+    permission_classes = (IsOwnerOrReadOnly, )

@@ -17,11 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 # from user.views import user
 from tweet.views import *
-from rest_framework import routers
 
-
-router = routers.SimpleRouter()
-router.register(r'tweet', TweetViewSet, basename='tweet')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,12 +28,7 @@ urlpatterns = [
     # path('api/v1/', include(router.urls)),
 
 
-    # path('api/v1/tweet/', TweetAPIList.as_view()),
-    # path('api/v1/tweet/<int:pk>/', TweetAPIUpdate.as_view()),
-    # path('api/v1/tweetdetail/<int:pk>/', TweetDetailAPI.as_view()),
-
-    path('api/v1/', include(router.urls)),
+    path('api/v1/tweet/', TweetAPIList.as_view()),
+    path('api/v1/tweet/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
 
 ]
-
-urlpatterns += router.urls
