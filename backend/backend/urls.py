@@ -15,26 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from user.views import user
-from tweet.views import submit
-from rest_framework.routers import SimpleRouter
+# from user.views import user
+from tweet.views import *
+from rest_framework import routers
 
-# from backend.user.views import UserProfileViewSet
 
-# from user.views import UserProfileViewSet
-
-# router = SimpleRouter()
-
-# router.register(r'user', UserProfileViewSet)
+router = routers.SimpleRouter()
+router.register(r'tweet', TweetViewSet, basename='tweet')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
-    # path('auth/user', views.user, name='user')
-    path('auth/user/', user, name='user'),
-    path('tweet/', submit, name='submit')
+
+    # path('auth/', include('djoser.urls')),
+    # path('auth/', include('djoser.urls.jwt')),
+    # path('auth/user/', user, name='user'),
+    # path('api/v1/', include(router.urls)),
+
+
+    # path('api/v1/tweet/', TweetAPIList.as_view()),
+    # path('api/v1/tweet/<int:pk>/', TweetAPIUpdate.as_view()),
+    # path('api/v1/tweetdetail/<int:pk>/', TweetDetailAPI.as_view()),
+
+    path('api/v1/', include(router.urls)),
+
 ]
 
-# urlpatterns += router.urls
-
+urlpatterns += router.urls

@@ -12,5 +12,4 @@ def user(request: Request):
         'user_profile_data': UserProfileSerializer(request.user).data
     })
 
-
-# UserProfileSerializer(request.user).data
+# ** - распаковать
