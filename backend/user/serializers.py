@@ -13,4 +13,6 @@ class UserSerializer(ModelSerializer):
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('fullname', 'location', 'about', 'website', 'tweet',)
+        fields = ('fullname', 'location', 'about', 'website',
+                  # 'tweet',
+                  )
