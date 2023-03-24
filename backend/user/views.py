@@ -1,15 +1,25 @@
+from django.contrib.auth.models import User
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from tweet.models import Tweet
 from .serializers import UserSerializer, UserProfileSerializer
 
 
-@api_view()
-def user(request: Request):
+@api_view(['GET'])
+def get_all_user_data(request: Request):
     return Response({
-        'user_data': UserSerializer(request.user).data,
-        'user_profile_data': UserProfileSerializer(request.user).data
+        'data': {
+            **UserSerializer(request.user).data,
+            **UserProfileSerializer(request.user).data,
+            'tweets': Tweet.objects.filter(user=request.user).values()
+        },
     })
 
-# ** - распаковать
+
+# @api_view(['GET'])
+# def get_all_users(request: Request):
+#     return Response({
+#         'users': User.objects.all().values()
+#     })

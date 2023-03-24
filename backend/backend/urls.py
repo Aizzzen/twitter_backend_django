@@ -15,20 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from user.views import user
-from tweet.views import *
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
+from tweet.views import *
+from user.views import get_all_user_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # path('auth/', include('djoser.urls')),
-    # path('auth/', include('djoser.urls.jwt')),
-    # path('auth/user/', user, name='user'),
-    # path('api/v1/', include(router.urls)),
+    path('api/v1/auth/', include('djoser.urls')),
+    path('api/v1/auth/', include('djoser.urls.jwt')),
 
+    path('api/v1/user/', get_all_user_data, name='user'),
 
     path('api/v1/tweet/', TweetAPIList.as_view()),
     path('api/v1/tweet/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
-
 ]
