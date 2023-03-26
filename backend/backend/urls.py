@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from tweet.views import *
+from tweet.views import TweetAPIList, TweetAPIUpdateDestroy
 from user.views import get_all_user_data
 
 urlpatterns = [
@@ -28,5 +28,7 @@ urlpatterns = [
     path('api/v1/user/', get_all_user_data, name='user'),
 
     path('api/v1/tweets/', TweetAPIList.as_view()),
-    path('api/v1/tweets/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
+    path('api/v1/tweets/<int:pk>/', TweetAPIList.as_view()),
+
+    path('api/v1/tweets-detail/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
 ]
