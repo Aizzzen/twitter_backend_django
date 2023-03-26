@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from tweet.views import *
 from user.views import get_all_user_data
@@ -28,6 +27,6 @@ urlpatterns = [
 
     path('api/v1/user/', get_all_user_data, name='user'),
 
-    path('api/v1/tweet/', TweetAPIList.as_view()),
-    path('api/v1/tweet/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
+    path('api/v1/tweets/', TweetAPIList.as_view()),
+    path('api/v1/tweets/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
 ]

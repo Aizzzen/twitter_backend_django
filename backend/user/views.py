@@ -13,7 +13,8 @@ def get_all_user_data(request: Request):
         'data': {
             **UserSerializer(request.user).data,
             **UserProfileSerializer(request.user).data,
-            'tweets': Tweet.objects.filter(user=request.user).values()
+            'tweets': Tweet.objects.all().values()
+            # 'tweets': Tweet.objects.filter(user=request.user).values()
         },
     })
 
