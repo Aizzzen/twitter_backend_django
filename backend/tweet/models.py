@@ -11,3 +11,6 @@ class Tweet(models.Model):
     # likes = models.PositiveIntegerField(null=True, default=0)
     # retweets
     # replies
+
+    class Meta:
+        ordering = ['-is_created', ]
