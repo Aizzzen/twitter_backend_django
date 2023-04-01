@@ -23,3 +23,4 @@ class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
     permission_classes = (IsOwnerOrReadOnly, )
+
