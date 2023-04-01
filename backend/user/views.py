@@ -17,9 +17,3 @@ def get_all_user_data(request: Request):
         'tweets': Tweet.objects.filter(user=request.user).values()  # - если авторизован
         # },
     })
-
-# @api_view(['GET'])
-# def get_all_users(request: Request):
-#     return Response({
-#         'users': User.objects.all().values()
-#     })
