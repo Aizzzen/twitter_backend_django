@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from tweet.views import TweetAPIList, TweetAPIUpdateDestroy
-from user.views import get_all_user_data
+from user.views import get_all_user_data, ActivationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
+
+    path('api/v1/activate/<uidb64>/<token>/', ActivationView.as_view(), name='activate'),
 
     path('api/v1/user/', get_all_user_data, name='user'),
 
