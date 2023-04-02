@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from dotenv import load_dotenv
 from datetime import timedelta
 from pathlib import Path
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -175,9 +177,9 @@ DJOSER = {
 
 # EMAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = 465
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = ''
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
