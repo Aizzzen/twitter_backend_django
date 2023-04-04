@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from tweet.models import Tweet, Media
 from tweet.permissions import IsOwnerOrReadOnly
 from tweet.serializers import TweetSerializer
-from user.serializers import UserSerializer
 
 
 class TweetAPIList(generics.ListCreateAPIView):
@@ -31,9 +30,8 @@ class TweetAPIList(generics.ListCreateAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         for tweet in serializer.data:
-            # tweet['username'] = User.objects.all().values().get(pk=tweet['user'])['username']
             tweet['photos'] = Media.objects.filter(tweet=tweet['id']).values()
-            # tweet['username'] = User.objects.all().values().get(pk=tweet['user'])
+            tweet['username'] = User.objects.all().values().get(tweet=tweet['id'])['username']
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -59,4 +57,3 @@ class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
     permission_classes = (IsOwnerOrReadOnly, )
-
