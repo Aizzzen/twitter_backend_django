@@ -14,3 +14,8 @@ class Tweet(models.Model):
 
     class Meta:
         ordering = ['-created_at', ]
+
+
+class Media(models.Model):
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    media = models.ImageField(null=True, blank=True, upload_to='photos/%Y/%m/%d/')
