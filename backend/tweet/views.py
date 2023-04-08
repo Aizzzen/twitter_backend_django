@@ -10,7 +10,7 @@ from tweet.serializers import TweetSerializer
 
 class TweetAPIList(generics.ListCreateAPIView):
     serializer_class = TweetSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -49,11 +49,13 @@ class TweetAPIList(generics.ListCreateAPIView):
 
         return Response({
             **serializer.data,
-            'photos': Media.objects.filter(tweet=serializer.data['id']).values()
+            'photos': Media.objects.filter(tweet=serializer.data['id']).values(),
+            'username': User.objects.all().values().get(tweet=serializer.data['id'])['username']
         }, status=status.HTTP_201_CREATED, headers=headers)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly,)
