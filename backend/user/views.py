@@ -8,20 +8,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from tweet.models import Tweet
-from .serializers import UserSerializer     # UserProfileSerializer
+from tweet.models import Tweet, Media
+from .serializers import UserSerializer
 
 
-# @api_view(['GET'])
-# def get_all_user_data(request: Request):
-#     return Response({
-#         # 'data': {
-#         **UserSerializer(request.user).data,
-#         # **UserProfileSerializer(request.user).data,
-#         # 'tweets': Tweet.objects.all().values()  # - если не авторизован
-#         'tweets': Tweet.objects.filter(user=request.user).values()  # - если авторизован
-#         # },
-#     })
+@api_view(['GET'])
+def get_user_data(request: Request):
+    return Response({
+        **UserSerializer(request.user).data,
+    })
 
 
 class ActivationView(View):
@@ -38,6 +33,6 @@ class ActivationView(View):
             return render(request, 'user/base.html', {'title': 'Ваша учетная запись была успешно активирована'})
 
         except Exception as ex:
-            pass
+            HttpResponse('Something went wrong')
 
         return render(request, 'user/base.html', {'title': 'Ваша учетная запись была успешно активирована'})
