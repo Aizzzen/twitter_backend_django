@@ -21,6 +21,7 @@ from backend import settings
 from tweet.views import TweetAPIListCreate, TweetAPIUpdateDestroy, get_user_tweets
 from user.views import ActivationView, get_user_data
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
