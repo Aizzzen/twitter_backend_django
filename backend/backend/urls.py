@@ -18,9 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from backend import settings
-from tweet.views import TweetAPIList, TweetAPIUpdateDestroy
-from user.views import ActivationView
-
+from tweet.views import TweetAPIListCreate, TweetAPIUpdateDestroy, get_user_tweets
+from user.views import ActivationView, get_user_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,11 +27,14 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
 
+    path('api/v1/user-data/', get_user_data),
+
     path('api/v1/activate/<uidb64>/<token>/', ActivationView.as_view(), name='activate'),
 
-    path('api/v1/tweets/', TweetAPIList.as_view()),
-    path('api/v1/tweets/<int:pk>/', TweetAPIList.as_view()),
+    path('api/v1/tweets/', TweetAPIListCreate.as_view()),
+    path('api/v1/tweets/<int:pk>/', TweetAPIListCreate.as_view()),
     path('api/v1/tweets-detail/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
+    path('api/v1/tweets-data/', get_user_tweets),
 ]
 
 # При дебаге добавляем маршрут для статических файлов

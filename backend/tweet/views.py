@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from tweet.models import Tweet, Media
@@ -8,7 +10,7 @@ from tweet.permissions import IsOwnerOrReadOnly
 from tweet.serializers import TweetSerializer
 
 
-class TweetAPIList(generics.ListCreateAPIView):
+class TweetAPIListCreate(generics.ListCreateAPIView):
     serializer_class = TweetSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
@@ -59,3 +61,14 @@ class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+
+
+@api_view(['GET'])
+def get_user_tweets(request: Request):
+    tweets = []
+    for tweet in Tweet.objects.filter(user=request.user).values():
+        tweet['photos'] = Media.objects.filter(tweet=tweet['id']).values()
+        tweet['username'] = User.objects.all().values().get(tweet=tweet['id'])['username']
+        tweets.append(tweet)
+
+    return Response(tweets)
