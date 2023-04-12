@@ -8,10 +8,10 @@ class UserSerializer(ModelSerializer):
         fields = ('id', 'email', 'username', 'is_active', 'date_joined', )
 
 
-# class UserProfileSerializer(ModelSerializer):
+# class ProfileSerializer(ModelSerializer):
+#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+#
 #     class Meta:
-#         model = UserProfile
-#         fields = ('fullname', 'location', 'about', 'website',
-#                   'tweet',
-#         )
+#         model = Profile
+#         fields = ('id', 'user', 'fullname', 'location', 'about', 'website', )
 #

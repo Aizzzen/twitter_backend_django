@@ -17,27 +17,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+import tweet.urls as tweet_urls
+import user.urls as user_urls
 from backend import settings
-from tweet.views import TweetAPIListCreate, TweetAPIUpdateDestroy, get_user_tweets
-from user.views import ActivationView, get_user_data
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth/', include('djoser.urls.jwt')),
-
-    path('api/v1/user-data/', get_user_data),
-
-    path('api/v1/activate/<uidb64>/<token>/', ActivationView.as_view(), name='activate'),
-
-    path('api/v1/tweets/', TweetAPIListCreate.as_view()),
-    path('api/v1/tweets/<int:pk>/', TweetAPIListCreate.as_view()),
-    path('api/v1/tweets-detail/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
-    path('api/v1/tweets-data/', get_user_tweets),
+    path('api/v1/', include(user_urls)),
+    path('api/v1/', include(tweet_urls)),
 ]
 
-# При дебаге добавляем маршрут для статических файлов
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
