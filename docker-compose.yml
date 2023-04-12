@@ -24,3 +24,35 @@ services:
 #      - POSTGRES_DB=backend
 #      - POSTGRES_USER=postgres
 #      - POSTGRES_PASSWORD=1234
+
+  redis:
+    image: redis:7.0.5-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./backend:/backend
+    links:
+      - redis
+    depends_on:
+      - redis
+
+  flower:
+    build:
+      context: .
+    hostname: flower
+    entrypoint: celery
+    command: -A celery_app.app flower
+    volumes:
+      - ./backend:/backend
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
