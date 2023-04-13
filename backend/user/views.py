@@ -9,13 +9,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer
+from .serializers import UserSerializerDAB
 
 
 @api_view(['GET'])
 def get_user_data(request: Request):
     return Response({
-        **UserSerializer(request.user).data,
+        **UserSerializerDAB(request.user).data,
     })
 
 
@@ -36,12 +36,6 @@ class ActivationView(View):
             HttpResponse('Something went wrong')
 
         return render(request, 'user/base.html', {'title': 'Ваша учетная запись была успешно активирована'})
-
-
-class UsersListAPIView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 # class ProfileListCreate(generics.ListCreateAPIView):

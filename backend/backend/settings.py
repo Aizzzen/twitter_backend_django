@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user.apps.UsersConfig',
     'tweet.apps.TweetsConfig',
     'corsheaders',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

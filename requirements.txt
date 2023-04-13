@@ -7,3 +7,4 @@ python-dotenv==1.0.0
 Pillow==9.5.0
 celery[redis]==5.2.7
 flower==1.2.0
+drf-yasg==1.21.5
