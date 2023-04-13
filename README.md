@@ -18,7 +18,7 @@
 Программа CI - Github Actions. </br>
 Все CI задачи (джобы) можно просмотреть в .github/workflows/github-actions.yml </br>
 Если Непрерывная Интеграция - <b>Continuous integration (CI)</b> - прошла успешно
-будет создан Docker образ, который запушится в DockerHub. </br> 
+будет создан Docker образ, который запушится в DockerHub (<a href='https://hub.docker.com/repository/docker/gadamurov/twitter_backend_django/general'>ссылка на Docker образ</a>). </br> 
 
 ## Ключи для DockerHub:
     DOCKER_CONTAINER_NAME - имя контейнера
