@@ -1,9 +1,9 @@
 name: twitter_backend_django_actions
-on: [pull_request]
-#on:
-#  push:
-#    branches:
-#      - master
+#on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 jobs:
   init:
     runs-on: ubuntu-latest
