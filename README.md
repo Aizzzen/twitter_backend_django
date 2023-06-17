@@ -26,3 +26,4 @@
     DOCKER_TOKEN - токен авторизации на DockerHub
 
 Добавить ключи: <repository_name> -> Settings -> Secrets and Variables -> actions -> new repository secret
+
