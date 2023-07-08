@@ -10,6 +10,9 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.PositiveIntegerField("Лайки", null=True, default=0)
 
+    def get_username(self):
+        return self.user
+
     class Meta:
         ordering = ['-created_at', ]
 
@@ -23,3 +26,7 @@ class Comment(models.Model):
     text = models.TextField("Комментарий", validators=[MaxLengthValidator(280)])
     tweet = models.ForeignKey(Tweet, on_delete=models.SET_NULL, blank=True, null=True, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField("Время создания", auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at', ]

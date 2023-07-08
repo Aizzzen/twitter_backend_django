@@ -7,4 +7,9 @@ backend/env
 backend/.env/
 backend/env/
 
-jfjdjeijejdjnchhchfhdh
+
+backend/media/
+backend/media
+
+backend/db.sqlite3
+

@@ -55,7 +55,7 @@ def get_user_tweets(request: Request):
     tweets = []
     for tweet in Tweet.objects.filter(user=request.user).values():
         tweet['photos'] = Media.objects.filter(tweet=tweet['id']).values()
-        # tweet['comments'] = Comment.objects.filter(tweet=tweet['id']).values()
+        tweet['comments'] = Comment.objects.filter(tweet=tweet['id']).values()
         tweet['username'] = User.objects.all().values().get(tweet=tweet['id'])['username']
         tweets.append(tweet)
 
