@@ -1,9 +1,16 @@
 from django.urls import path
-from .views import TweetAPIListCreate, TweetAPIUpdateDestroy, get_user_tweets
+from .views import (
+    TweetAPIListCreate,
+    TweetAPIUpdateDestroy,
+    CurrentUserTweets,
+    CommentAPIView
+)
 
 urlpatterns = [
     path('tweets/', TweetAPIListCreate.as_view()),
     path('tweets/<int:pk>/', TweetAPIListCreate.as_view()),
     path('tweets-detail/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
-    path('tweets-data/', get_user_tweets),
+    path('tweets-my/', CurrentUserTweets.as_view()),
+    path('comments/', CommentAPIView.as_view()),
+    path('comments-detail/<int:pk>/', CommentAPIView.as_view()),
 ]

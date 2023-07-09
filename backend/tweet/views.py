@@ -1,19 +1,18 @@
 from django.contrib.auth.models import User
-from django.db.models import Prefetch
+from django.http import HttpResponse
 from rest_framework import generics, status
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from tweet.models import Tweet, Media, Comment
 from tweet.permissions import IsOwnerOrReadOnly
-from tweet.serializers import TweetSerializer
+from tweet.serializers import TweetSerializer, CommentSerializer, CommentCreateSerializer
 
 
 class TweetAPIListCreate(generics.ListCreateAPIView):
     serializer_class = TweetSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -47,16 +46,32 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
 class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = [IsOwnerOrReadOnly]
 
 
-@api_view(['GET'])
-def get_user_tweets(request: Request):
-    tweets = []
-    for tweet in Tweet.objects.filter(user=request.user).values():
-        tweet['photos'] = Media.objects.filter(tweet=tweet['id']).values()
-        tweet['comments'] = Comment.objects.filter(tweet=tweet['id']).values()
-        tweet['username'] = User.objects.all().values().get(tweet=tweet['id'])['username']
-        tweets.append(tweet)
+class CurrentUserTweets(APIView):
+    def get(self, request):
+        tweets = Tweet.objects.filter(user=request.user)
+        serializer = TweetSerializer(tweets, many=True)
+        return Response(serializer.data)
 
-    return Response(tweets)
+
+class CommentAPIView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        comment = Comment.objects.get(pk=pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
