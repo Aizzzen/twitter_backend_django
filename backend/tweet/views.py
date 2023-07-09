@@ -71,6 +71,10 @@ class CommentAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class CommentDetailAPIView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
+
     def delete(self, request, pk):
         comment = Comment.objects.get(pk=pk)
         comment.delete()
