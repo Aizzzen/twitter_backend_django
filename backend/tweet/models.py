@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
+from user.serializers import UserSerializerDAB
+
 
 class Tweet(models.Model):
     text = models.TextField("Текст твита", validators=[MaxLengthValidator(280)])
@@ -12,6 +14,15 @@ class Tweet(models.Model):
 
     def get_username(self):
         return self.user
+
+    def get_fullname(self):
+        user = User.objects.get(username=self.get_username())
+        serializer = UserSerializerDAB(user)
+        name = list(serializer.data['profile'].values())[1]
+        if name:
+            return name
+        else:
+            return None
 
     class Meta:
         ordering = ['-created_at', ]

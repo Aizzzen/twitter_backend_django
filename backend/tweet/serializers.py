@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from tweet.models import Tweet, Comment, Media
+from user.models import Profile
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -27,7 +28,8 @@ class TweetSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, required=False)
     photos = MediaSerializer(many=True, required=False)
     username = serializers.CharField(source='get_username', read_only=True)
+    fullname = serializers.CharField(source='get_fullname', read_only=True)
 
     class Meta:
         model = Tweet
-        fields = ('id', 'username', 'text', 'photos', 'comments', 'likes', 'created_at', 'updated_at', 'user', )
+        fields = ('id', 'username', 'fullname', 'text', 'photos', 'comments', 'likes', 'created_at', 'updated_at', 'user', )
