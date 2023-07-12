@@ -1,5 +1,8 @@
 # Twitter_backend_django
 ![action status](https://github.com/Aizzzen/twitter_backend_django/actions/workflows/github-actions.yml/badge.svg)
+
+## <a href="https://lucid.app/lucidchart/164f361f-9f76-4375-bf24-557551398f2d/edit?invitationId=inv_50e356ce-5d36-4c81-9a5f-4df08f3e924f&page=0_0#">Ссылка на схему БД</a>
+
 ## http://127.0.0.1:8000/api/v1/swagger/ - API docs
 (набор доступных url, доступно к просмотру после запуска проекта на локальной машине)
 
