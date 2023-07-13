@@ -39,5 +39,17 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField("Время создания", auto_now_add=True)
 
+    def get_username(self):
+        return self.user
+
+    def get_fullname(self):
+        user = User.objects.get(username=self.get_username())
+        serializer = UserSerializerDAB(user)
+        name = list(serializer.data['profile'].values())[1]
+        if name:
+            return name
+        else:
+            return None
+
     class Meta:
         ordering = ['-created_at', ]
