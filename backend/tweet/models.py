@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
-from user.serializers import UserSerializerDAB
+from user.serializers import UserSerializer, ProfileSerializer
+
+from user.models import Profile
 
 
 class Tweet(models.Model):
@@ -16,11 +18,11 @@ class Tweet(models.Model):
         return self.user
 
     def get_fullname(self):
-        user = User.objects.get(username=self.get_username())
-        serializer = UserSerializerDAB(user)
-        name = list(serializer.data['profile'].values())[1]
-        if name:
-            return name
+        user = Profile.objects.get(user=self.user.pk)
+        serializer = ProfileSerializer(user)
+        fullname = serializer.data['fullname']
+        if fullname:
+            return fullname
         else:
             return None
 
@@ -43,13 +45,10 @@ class Comment(models.Model):
         return self.user
 
     def get_fullname(self):
-        user = User.objects.get(username=self.get_username())
-        serializer = UserSerializerDAB(user)
-        name = list(serializer.data['profile'].values())[1]
-        if name:
-            return name
+        user = Profile.objects.get(user=self.user.pk)
+        serializer = ProfileSerializer(user)
+        fullname = serializer.data['fullname']
+        if fullname:
+            return fullname
         else:
             return None
-
-    class Meta:
-        ordering = ['-created_at', ]

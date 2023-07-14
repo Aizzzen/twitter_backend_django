@@ -7,14 +7,26 @@ from django.views import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import UserSerializerDAB
+from .models import Profile
+from .serializers import UserSerializer, ProfileSerializer
 
 
 class UserAPIView(APIView):
     def get(self, request):
         user = User.objects.get(username=request.user.username)
-        serializer = UserSerializerDAB(user)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        instance = Profile.objects.get(user=request.user.id)
+        if instance:
+            # data - create / data + instance - update (in serializer)
+            serializer = ProfileSerializer(data=request.data, instance=instance)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"updated_profile": serializer.data})
+        else:
+            return Response({"message": "Метод PUT не разрешен"})
 
 
 class ActivationView(View):
