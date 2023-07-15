@@ -30,6 +30,11 @@ class TweetSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='get_username', read_only=True)
     fullname = serializers.CharField(source='get_fullname', read_only=True)
 
+    def update(self, instance, validated_data):
+        instance.text = validated_data.get('text', instance.text)
+        instance.save()
+        return instance
+
     class Meta:
         model = Tweet
         fields = ('id', 'username', 'fullname', 'text', 'photos', 'comments', 'likes', 'created_at', 'updated_at', 'user', )

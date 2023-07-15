@@ -26,6 +26,7 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        self.check_object_permissions(request, serializer.data)
         headers = self.get_success_headers(serializer.data)
 
         media = request.FILES.getlist('media')
@@ -43,10 +44,24 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
         # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class TweetAPIUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Tweet.objects.all()
-    serializer_class = TweetSerializer
+class TweetAPIUpdateDestroy(APIView):
     permission_classes = [IsOwnerOrReadOnly]
+
+    def put(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        instance = Tweet.objects.get(id=pk)
+        self.check_object_permissions(request, instance)
+        if instance:
+            serializer = TweetSerializer(context={'request': request}, data=request.data, instance=instance)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"data": serializer.data})
+
+    def delete(self, request, pk):
+        tweet = Tweet.objects.get(pk=pk)
+        self.check_object_permissions(request, tweet)
+        tweet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CurrentUserTweets(APIView):
@@ -62,11 +77,13 @@ class CommentAPIView(APIView):
     def get(self, request):
         comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
+        self.check_object_permissions(request, comments)
         return Response(serializer.data)
 
     def post(self, request):
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
+            self.check_object_permissions(request, serializer.data)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -77,5 +94,6 @@ class CommentDetailAPIView(APIView):
 
     def delete(self, request, pk):
         comment = Comment.objects.get(pk=pk)
+        self.check_object_permissions(request, comment)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

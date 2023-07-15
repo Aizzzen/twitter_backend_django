@@ -30,3 +30,16 @@
 
 Добавить ключи: <repository_name> -> Settings -> Secrets and Variables -> actions -> new repository secret
 
+## Технологии:
+- Django
+- Django Rest Framework
+- PostgreSQL
+- Djoser
+- JWT
+- Pillow
+- Celery
+- Redis
+- Flower
+- django-cors-headers
+- python-dotenv
+- drf-yasg
