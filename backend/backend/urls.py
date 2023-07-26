@@ -19,6 +19,7 @@ from django.urls import path, include
 
 import tweet.urls as tweet_urls
 import user.urls as user_urls
+import chat.urls as chat_urls
 from backend import settings
 from .yasg import urlpatterns as doc_urls
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(user_urls)),
     path('api/v1/', include(tweet_urls)),
+    path('api/v1/', include(chat_urls)),
 ]
 
 urlpatterns += doc_urls

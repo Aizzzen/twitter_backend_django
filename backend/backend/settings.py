@@ -34,6 +34,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'djoser',
     'user.apps.UsersConfig',
     'tweet.apps.TweetsConfig',
+    'chat.apps.ChatConfig',
     'corsheaders',
     'drf_yasg',
 ]
@@ -198,3 +200,9 @@ SESSION_COOKIE_SECURE = True
 # }
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+ASGI_APPLICATION = 'backend.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
