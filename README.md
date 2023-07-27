@@ -43,3 +43,4 @@
 - django-cors-headers
 - python-dotenv
 - drf-yasg
+- websocket (channels[daphne])
