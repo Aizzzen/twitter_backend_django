@@ -46,36 +46,36 @@ class ShowChatsSerializer(serializers.ModelSerializer):
         return chats_res
 
 
-# class SendMessageSerializers(serializers.ModelSerializer):
-#     id_chat = serializers.IntegerField(write_only=True)
-#     id_user = serializers.IntegerField(write_only=True)
-#
-#     class Meta:
-#         model = Message
-#         fields = ["id_chat", 'id_user', "text"]
-#
-#     def create(self, validated_data):
-#         id_chat = validated_data.get('id_chat')
-#         id_user = validated_data.get('id_user')
-#         user = User.objects.get(id=id_user)
-#         chat = Chat.objects.get(id=id_chat)
-#         text = validated_data.get('text')
-#         return Message.objects.create(user=user, chat=chat, text=text)
+class SendMessageSerializer(serializers.ModelSerializer):
+    chat_id = serializers.IntegerField(write_only=True)
+    user_id = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = Message
+        fields = ["chat_id", 'user_id', "text"]
+
+    def create(self, validated_data):
+        chat_id = validated_data.get('chat_id')
+        user_id = validated_data.get('user_id')
+        user = User.objects.get(id=user_id)
+        chat = Chat.objects.get(id=chat_id)
+        text = validated_data.get('text')
+        return Message.objects.create(user=user, chat=chat, text=text)
 
 
-# class UserNameSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
+class UserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
-# class ListMessageSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model = Message
-#         fields = ['text', 'user']
+class ListMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['text', 'user']
 
 
-# class GetUserDataForChat(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username']
+class GetUserDataForChat(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
