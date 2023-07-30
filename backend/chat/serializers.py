@@ -4,6 +4,8 @@ from rest_framework import serializers
 
 from chat.models import Chat, Message
 
+from user.models import Profile
+
 
 class NewChatSerializer(serializers.ModelSerializer):
     user1_id = serializers.IntegerField(write_only=True)
@@ -39,9 +41,11 @@ class ShowChatsSerializer(serializers.ModelSerializer):
         for chat_id in chats:
             chat = Chat.objects.get(id=chat_id)
             chat_data_user = chat.users.exclude(id=user_id)
+            # profile = Profile.objects.get(user_id=chat_data_user.get().id)
             chats_res[chat_id] = {
                 'user_id': chat_data_user.get().id,
                 'username': chat_data_user.get().username,
+                # 'fullname': profile.fullname
             }
         return chats_res
 
