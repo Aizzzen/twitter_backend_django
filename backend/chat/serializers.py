@@ -41,12 +41,19 @@ class ShowChatsSerializer(serializers.ModelSerializer):
         for chat_id in chats:
             chat = Chat.objects.get(id=chat_id)
             chat_data_user = chat.users.exclude(id=user_id)
-            # profile = Profile.objects.get(user_id=chat_data_user.get().id)
-            chats_res[chat_id] = {
-                'user_id': chat_data_user.get().id,
-                'username': chat_data_user.get().username,
-                # 'fullname': profile.fullname
-            }
+            profile = Profile.objects.filter(user_id=chat_data_user.get().id)
+            if profile:
+                fullname = profile.values('fullname')[0]['fullname']
+                chats_res[chat_id] = {
+                    'user_id': chat_data_user.get().id,
+                    'username': chat_data_user.get().username,
+                    'fullname': fullname
+                }
+            else:
+                chats_res[chat_id] = {
+                    'user_id': chat_data_user.get().id,
+                    'username': chat_data_user.get().username,
+                }
         return chats_res
 
 
@@ -76,7 +83,7 @@ class UserNameSerializer(serializers.ModelSerializer):
 class ListMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['text', 'user']
+        fields = ['text', 'user', 'created_at']
 
 
 class GetUserDataForChat(serializers.ModelSerializer):

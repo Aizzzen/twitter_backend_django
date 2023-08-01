@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from chat.models import Chat, Message
 from chat.serializers import ShowChatsSerializer, NewChatSerializer, ListMessageSerializer, GetUserDataForChat
 from chat.pagination import MessagesPagination
+from user.models import Profile
 
 
 def index(request):
@@ -57,12 +58,24 @@ class ListMessageView(APIView):
         paginator = MessagesPagination()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ListMessageSerializer(page, many=True)
-        user = chat.users.all().exclude(id=request.user.id).values('id', 'username'),
-        data = {
-            'msgs': paginator.get_paginated(serializer.data),
-            'user': user[0],
-        }
-        return Response(data)
+        user = chat.users.all().exclude(id=request.user.id).values('id', 'username')[0],
+        profile = chat.users.all().exclude(id=request.user.id).values('profile')[0],
+        if profile:
+            fullname = Profile.objects.filter(id=profile[0]['profile']).values('fullname')[0]['fullname']
+            return_user = user[0]
+            return_user['fullname'] = fullname
+            data = {
+                'msgs': paginator.get_paginated(serializer.data),
+                'user': return_user,
+            }
+            return Response(data)
+        else:
+            return_user = user[0]
+            data = {
+                'msgs': paginator.get_paginated(serializer.data),
+                'user': return_user,
+            }
+            return Response(data)
 
 
 class GetUserData(RetrieveAPIView):
