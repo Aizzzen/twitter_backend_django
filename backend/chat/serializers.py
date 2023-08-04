@@ -8,16 +8,20 @@ from user.models import Profile
 
 
 class NewChatSerializer(serializers.ModelSerializer):
-    user1_id = serializers.IntegerField(write_only=True)
-    user2_id = serializers.IntegerField(write_only=True)
+    user1 = serializers.CharField(write_only=True)
+    user2 = serializers.CharField(write_only=True)
+    # user2_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Chat
-        fields = ['user1_id', 'user2_id']
+        fields = ['user1', 'user2']
 
     def create(self, validated_data):
-        user1_id = validated_data.get('user1_id')
-        user2_id = validated_data.get('user2_id')
+        user1_id = User.objects.get(username=validated_data.get('user1'))
+        user2_id = User.objects.get(username=validated_data.get('user2'))
+        print(user1_id, user2_id, 'user1_id, user2_id')
+        # user1_id = validated_data.get('user1_id')
+        # user2_id = validated_data.get('user2_id')
         try:
             chats = Chat.objects.filter(users=user1_id)
             chat = chats.get(users=user2_id)
@@ -83,7 +87,7 @@ class UserNameSerializer(serializers.ModelSerializer):
 class ListMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['text', 'user', 'created_at']
+        fields = ['id', 'text', 'user', 'created_at']
 
 
 class GetUserDataForChat(serializers.ModelSerializer):
