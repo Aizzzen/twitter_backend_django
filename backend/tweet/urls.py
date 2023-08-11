@@ -8,10 +8,10 @@ from .views import (
 )
 
 urlpatterns = [
-    path('tweets/', TweetAPIListCreate.as_view()),
-    path('tweets/<int:pk>/', TweetAPIListCreate.as_view()),
-    path('tweets/detail/<int:pk>/', TweetAPIUpdateDestroy.as_view()),
-    path('tweets/my/', CurrentUserTweets.as_view()),
-    path('comments/', CommentAPIView.as_view()),
-    path('comments/detail/<int:pk>/', CommentDetailAPIView.as_view()),
+    path('tweets/', TweetAPIListCreate.as_view(), name='listcreatetweets'),
+    path('tweets/<int:pk>/', TweetAPIListCreate.as_view(), name='listone'),
+    path('tweets/detail/<int:pk>/', TweetAPIUpdateDestroy.as_view(), name='detailtweets'),
+    path('tweets/my/', CurrentUserTweets.as_view(), name='mytweets'),
+    path('comments/', CommentAPIView.as_view(), name='listcreatecomments'),
+    path('comments/detail/<int:pk>/', CommentDetailAPIView.as_view(), name='detailcomments'),
 ]

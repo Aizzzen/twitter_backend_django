@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.models import User
 from django.views import View
@@ -32,7 +32,7 @@ class UserAPIView(APIView):
 class ActivationView(View):
     def get(self, request, uidb64, token):
         try:
-            id = force_text(urlsafe_base64_decode(uidb64))
+            id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=id)
 
             if user.is_active:

@@ -6,6 +6,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('activate/<uidb64>/<token>/', ActivationView.as_view(), name='activate'),
-    path('user-data/', UserAPIView.as_view()),
+    path('user-data/', UserAPIView.as_view(), name='userdata'),
     # path('user-data/', get_user_data),
 ]
