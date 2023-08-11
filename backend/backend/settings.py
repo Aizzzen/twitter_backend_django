@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import django
+# import django
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
-django.setup()
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+# django.setup()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +40,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = [
     'daphne',
+    'user.apps.UsersConfig',
+    'tweet.apps.TweetsConfig',
+    'chat.apps.ChatConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,9 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
-    'user.apps.UsersConfig',
-    'tweet.apps.TweetsConfig',
-    'chat.apps.ChatConfig',
     'corsheaders',
     'drf_yasg',
 ]
