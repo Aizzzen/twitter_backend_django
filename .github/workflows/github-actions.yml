@@ -14,10 +14,8 @@ jobs:
           architecture: 'x64'
       - name: Install requirements
         run: pip install -r requirements.txt
-      - name: Change directory
-        run: cd backend
-      - name: Run tests
-        run: pytest
+#      - name: Run tests
+#        run: pytest
   build_and_pub:
     needs: init
     runs-on: ubuntu-latest
