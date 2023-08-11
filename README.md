@@ -11,6 +11,11 @@
     EMAIL_HOST_USER=почта, с которой будут приходить уведомления при регистрации
     EMAIL_HOST_PASSWORD=пароль от почты
     DEFAULT_FROM_EMAIL=почта
+    DB_HOST=localhost / 127.0.0.1
+    DB_NAME=имя БД
+    DB_USER=пользователь БД (например, postgres)
+    DB_PASS=пароль
+    DB_PORT=порт (если postgres, то 5432)
 
 ## Реализовано:
 - регистрация, с подтверждением аккаунта по почте
@@ -43,7 +48,8 @@
 - Celery
 - Redis
 - Flower
+- websocket (channels[daphne])
+- pytest
 - django-cors-headers
 - python-dotenv
 - drf-yasg
-- websocket (channels[daphne])
