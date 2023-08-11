@@ -4,3 +4,5 @@ from chat.models import Chat, Message
 
 admin.site.register(Chat)
 admin.site.register(Message)
+
+admin.site.site_header = "Twitter API"
