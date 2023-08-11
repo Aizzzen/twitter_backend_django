@@ -2,7 +2,13 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse
 from tweet.models import Tweet, Media, Comment
-from tweet.views import TweetAPIListCreate, TweetAPIUpdateDestroy, CurrentUserTweets, CommentAPIView, CommentDetailAPIView
+from tweet.views import (
+    TweetAPIListCreate,
+    TweetAPIUpdateDestroy,
+    CurrentUserTweets,
+    CommentAPIView,
+    CommentDetailAPIView
+)
 
 
 class TestViews(TestCase):
@@ -27,7 +33,9 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 401)
 
     # def test_detail_tweets_url_PUT(self):
-    #     response = self.client.put(self.detail_tweets_url)
+    #     response = self.client.put(self.detail_tweets_url, {
+    #         "text": "Updated Text"
+    #     })
     #     self.assertEquals(response.status_code, 401)
     #
     # def test_detail_tweets_url_DELETE(self):

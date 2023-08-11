@@ -1,5 +1,9 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from user.views import (
+    UserAPIView,
+    ActivationView
+)
 
 
 class TestViews(TestCase):
