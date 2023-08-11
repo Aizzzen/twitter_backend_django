@@ -5,7 +5,8 @@ COPY requirements.txt /temp/requirements.txt
 RUN apk update && apk add python3-dev \
                           gcc \
                           libc-dev \
-                          libffi-dev
+                          libffi-dev \
+RUN apt-get update && apt-get install -y libpq-dev build-essential
 RUN pip install -r /temp/requirements.txt --no-cache-dir
 RUN adduser --disabled-password backend-user
 
