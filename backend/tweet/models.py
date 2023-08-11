@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
-
 from user.serializers import UserSerializer, ProfileSerializer
-
 from user.models import Profile
 
 
