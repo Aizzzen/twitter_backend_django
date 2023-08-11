@@ -7,7 +7,7 @@ RUN apk update && apk add python3-dev \
                           gcc \
                           libc-dev \
                           libffi-dev \
-    && pip install --no-cache-dir -r /temp/requirements.txt
+RUN pip install --no-cache-dir -r /temp/requirements.txt
 RUN adduser --disabled-password backend-user
 
 COPY backend /backend
