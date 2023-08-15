@@ -2,28 +2,32 @@ services:
   twitter-app:
     build:
       context: .
+    environment:
+      - DB_HOST=localhost
+      - DB_NAME=twitter
+      - DB_USER=postgres
+      - DB_PASS=12341234
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
       - ./backend:/backend
-#    environment:
-#      - DB_HOST=database
-#      - DB_NAME=backend
-#      - DB_USER=postgres
-#      - DB_PASS=1234
-
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres
 
-#    depends_on:
-#      - database
-
-#  database:
-#    image: postgres:14.6-alpine
-#    environment:
-#      - POSTGRES_DB=backend
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=1234
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    container_name: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=DB_USER
+      - POSTGRES_DB=DB_NAME
+      - POSTGRES_PASSWORD=DB_PASS
 
   redis:
     image: redis:7.0.5-alpine
@@ -55,4 +59,4 @@ services:
     depends_on:
       - redis
     ports:
-      - "5555:5555"
+      - 5555:5555

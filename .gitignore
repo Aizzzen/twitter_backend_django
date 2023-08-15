@@ -13,3 +13,4 @@ backend/media
 
 backend/db.sqlite3
 
+postgres_data
