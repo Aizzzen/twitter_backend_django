@@ -3,7 +3,7 @@ services:
     build:
       context: .
     environment:
-      - DB_HOST=localhost
+      - DB_HOST=database
       - DB_NAME=twitter
       - DB_USER=postgres
       - DB_PASS=12341234
@@ -14,20 +14,15 @@ services:
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - postgres
+      - database
 
-  postgres:
+  database:
+    restart: on-failure:10  # always
     image: postgres:15-alpine
-    restart: always
-    container_name: postgres
-    volumes:
-      - ./postgres_data:/var/lib/postgresql/data/
-    ports:
-      - 5432:5432
     environment:
-      - POSTGRES_USER=DB_USER
-      - POSTGRES_DB=DB_NAME
-      - POSTGRES_PASSWORD=DB_PASS
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=twitter
+      - POSTGRES_PASSWORD=12341234
 
   redis:
     image: redis:7.0.5-alpine

@@ -16,10 +16,7 @@ DATABASES = {
         'NAME': 'twitter-prod',
         'USER': 'postgres',
         'PASSWORD': '12341234',
-        'PORT': '5432',
     }
 }
 
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
