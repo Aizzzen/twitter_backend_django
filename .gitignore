@@ -11,6 +11,9 @@ backend/env/
 backend/media/
 backend/media
 
+backend/local_settings.py
+backend/prod_settings.py
+
 backend/db.sqlite3
 
 postgres_data
