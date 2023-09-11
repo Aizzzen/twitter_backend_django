@@ -31,6 +31,7 @@
 - создание чатов
 - возможность онлайн чата с другими пользователями (websocket)
 
+
 Программа CI - Github Actions. </br>
 Все CI задачи (джобы) можно просмотреть в .github/workflows/github-actions.yml </br>
 Если Непрерывная Интеграция - <b>Continuous integration (CI)</b> - прошла успешно
