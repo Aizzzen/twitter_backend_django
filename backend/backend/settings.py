@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'drf_yasg',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -177,6 +179,10 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
     }
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 
 try:
     from .local_settings import *

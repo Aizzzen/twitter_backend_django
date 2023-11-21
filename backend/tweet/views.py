@@ -17,9 +17,9 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
         pk = self.kwargs.get('pk')
 
         if not pk:
-            return Tweet.objects.all()
+            return Tweet.objects.all().select_related("user")
 
-        return Tweet.objects.filter(pk=pk)
+        return Tweet.objects.filter(pk=pk).select_related("user")
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -37,11 +37,11 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
 
         return Response({
             **serializer.data,
-            'photos': Media.objects.filter(tweet=serializer.data['id']).values(),
+            'photos': Media.objects.filter(tweet=serializer.data['id']).select_related("tweet").values(),
             'username': User.objects.all().values().get(tweet=serializer.data['id'])['username']
         }, status=status.HTTP_201_CREATED, headers=headers)
         # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
+# .prefetch_related("media")
 
 class TweetAPIUpdateDestroy(APIView):
     permission_classes = [IsOwnerOrReadOnly]
@@ -74,7 +74,7 @@ class CommentAPIView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        comments = Comment.objects.all()
+        comments = Comment.objects.all().select_related("tweet", "user")
         serializer = CommentSerializer(comments, many=True)
         self.check_object_permissions(request, comments)
         return Response(serializer.data)
