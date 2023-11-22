@@ -19,6 +19,12 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = 'django-insecure-sfk$uyk0km)@w4dctfz3q+=60gsw_qqjn^a=vjm^)ogg02iy-w'
+
+ALLOWED_HOSTS = ['*']
+
+DEBUG=True
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = [
@@ -50,6 +56,21 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get('DB_HOST'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
+    }
+}
+
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [STATIC_DIR]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -184,7 +205,7 @@ INTERNAL_IPS = [
     '127.0.0.1'
 ]
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     from .prod_settings import *

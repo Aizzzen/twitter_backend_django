@@ -35,13 +35,12 @@ class TweetAPIListCreate(generics.ListCreateAPIView):
                 media=photo
             )
 
-        return Response({
-            **serializer.data,
-            'photos': Media.objects.filter(tweet=serializer.data['id']).select_related("tweet").values(),
-            'username': User.objects.all().values().get(tweet=serializer.data['id'])['username']
-        }, status=status.HTTP_201_CREATED, headers=headers)
-        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-# .prefetch_related("media")
+        # return Response({
+        #     **serializer.data,
+        #     'photos': Media.objects.filter(tweet=serializer.data['id']).select_related("tweet").values(),
+        #     'username': User.objects.all().values().get(tweet=serializer.data['id'])['username']
+        # }, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class TweetAPIUpdateDestroy(APIView):
     permission_classes = [IsOwnerOrReadOnly]
