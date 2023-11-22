@@ -13,11 +13,11 @@ jobs:
           python-version: 3.9
           architecture: 'x64'
       - name: Install requirements
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
       - name: Run tests
-        run: pytest backend/chat
-        run: pytest backend/tweet
-        run: pytest backend/user
+      - run: pytest backend/chat
+      - run: pytest backend/tweet
+      - run: pytest backend/user
   build_and_pub:
     needs: init
     runs-on: ubuntu-latest
